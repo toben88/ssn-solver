@@ -1,0 +1,37 @@
+{
+  "formatters": {
+    "dart": {
+      "indentSize": 2,
+      "lineLength": 80
+    }
+  },
+  "linters": {
+    "dart": {
+      "rules": [
+        "always_declare_return_types",
+        "avoid_empty_else",
+        "avoid_print",
+        "avoid_unused_constructor_parameters",
+        "camel_case_types",
+        "constant_identifier_names",
+        "prefer_const_constructors",
+        "prefer_final_fields",
+        "sort_child_properties_last"
+      ]
+    }
+  },
+  "folders": {
+    "lib": {
+      "models": "Business logic and data models",
+      "screens": "UI screens and widgets",
+      "services": "API and backend services",
+      "utils": "Helper functions and utilities",
+      "widgets": "Reusable UI components"
+    },
+    "assets": {
+      "images": "Image assets",
+      "fonts": "Custom fonts"
+    },
+    "test": "Unit and widget tests"
+  }
+}
