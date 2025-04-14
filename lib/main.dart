@@ -4,6 +4,7 @@ import 'providers/provisions_provider.dart';
 import 'screens/provisions_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const SSNCalculatorApp());
 }
 
@@ -28,7 +29,26 @@ class SSNCalculatorApp extends StatelessWidget {
           cardTheme: const CardTheme(
             margin: EdgeInsets.zero,
           ),
+          // Optimize typography for different screen sizes
+          textTheme: Typography.material2018().black.copyWith(
+            titleLarge: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            titleMedium: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            titleSmall: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            bodyLarge: const TextStyle(fontSize: 16),
+            bodyMedium: const TextStyle(fontSize: 14),
+            bodySmall: const TextStyle(fontSize: 12),
+          ),
         ),
+        // Set responsive design constraints
+        builder: (context, child) {
+          return MediaQuery(  
+            // Apply a slight text scaling factor limit for better readability
+            data: MediaQuery.of(context).copyWith(
+              textScaleFactor: MediaQuery.of(context).textScaleFactor.clamp(0.8, 1.2),
+            ),
+            child: child!,
+          );
+        },
         home: const ProvisionsScreen(),
       ),
     );

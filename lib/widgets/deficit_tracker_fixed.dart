@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'dart:math' show max;
 import '../models/provision.dart';
 import '../providers/provisions_provider.dart';
 
@@ -100,7 +99,7 @@ class DeficitTracker extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 6),
+                                    padding: const EdgeInsets.symmetric(vertical: 8),
                                     decoration: BoxDecoration(
                                       color: colorScheme.primaryContainer.withOpacity(0.5),
                                       borderRadius: const BorderRadius.vertical(top: Radius.circular(7)),
@@ -111,16 +110,15 @@ class DeficitTracker extends StatelessWidget {
                                         children: [
                                           Icon(
                                             Icons.drag_indicator,
-                                            size: 14,
+                                            size: 16,
                                             color: colorScheme.primary,
                                           ),
-                                          const SizedBox(width: 6),
+                                          const SizedBox(width: 8),
                                           Text(
                                             'Selected Provisions',
                                             style: Theme.of(context).textTheme.titleSmall?.copyWith(
                                                   fontWeight: FontWeight.bold,
                                                   color: colorScheme.primary,
-                                                  fontSize: 12,
                                                 ),
                                           ),
                                         ],
@@ -146,35 +144,33 @@ class DeficitTracker extends StatelessWidget {
                                             trackColor: colorScheme.primary.withOpacity(0.1),
                                             radius: const Radius.circular(10),
                                             child: GridView.builder(
-                                              padding: const EdgeInsets.all(4),
+                                              padding: const EdgeInsets.all(8),
                                               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossCountAxisDirection: Axis.horizontal,
-                                                crossAxisCount: 4,
-                                                childAspectRatio: 0.33,
-                                                crossAxisSpacing: 2,
-                                                mainAxisSpacing: 2,
+                                                crossAxisCount: 2,
+                                                childAspectRatio: 2.5,
+                                                crossAxisSpacing: 4,
+                                                mainAxisSpacing: 4,
                                               ),
                                               itemCount: selectedProvisions.length,
                                               itemBuilder: (context, index) {
                                                 final provision = selectedProvisions[index];
                                                 return Chip(
                                                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                                  visualDensity: VisualDensity.compact,
                                                   label: Text(
                                                     provision.id,
-                                                    style: const TextStyle(fontSize: 10),
+                                                    style: const TextStyle(fontSize: 12),
                                                     overflow: TextOverflow.ellipsis,
                                                   ),
-                                                  labelPadding: const EdgeInsets.symmetric(horizontal: 2),
+                                                  labelPadding: const EdgeInsets.symmetric(horizontal: 4),
                                                   avatar: CircleAvatar(
                                                     backgroundColor: colorScheme.primary,
-                                                    radius: 8,
+                                                    radius: 10,
                                                     child: Text(
                                                       provision.id[0],
-                                                      style: const TextStyle(fontSize: 8, color: Colors.white),
+                                                      style: const TextStyle(fontSize: 10, color: Colors.white),
                                                     ),
                                                   ),
-                                                  deleteIcon: const Icon(Icons.close, size: 12),
+                                                  deleteIcon: const Icon(Icons.close, size: 14),
                                                   onDeleted: () {
                                                     final provider = Provider.of<ProvisionsProvider>(
                                                       context,
@@ -280,7 +276,7 @@ class DeficitTracker extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 6),
+                                    padding: const EdgeInsets.symmetric(vertical: 8),
                                     decoration: BoxDecoration(
                                       color: colorScheme.primaryContainer.withOpacity(0.5),
                                       borderRadius: const BorderRadius.vertical(top: Radius.circular(7)),
@@ -291,16 +287,15 @@ class DeficitTracker extends StatelessWidget {
                                         children: [
                                           Icon(
                                             Icons.drag_indicator,
-                                            size: 14,
+                                            size: 16,
                                             color: colorScheme.primary,
                                           ),
-                                          const SizedBox(width: 6),
+                                          const SizedBox(width: 8),
                                           Text(
                                             'Selected Provisions',
                                             style: Theme.of(context).textTheme.titleSmall?.copyWith(
                                                   fontWeight: FontWeight.bold,
                                                   color: colorScheme.primary,
-                                                  fontSize: 12,
                                                 ),
                                           ),
                                         ],
@@ -326,34 +321,33 @@ class DeficitTracker extends StatelessWidget {
                                             trackColor: colorScheme.primary.withOpacity(0.1),
                                             radius: const Radius.circular(10),
                                             child: GridView.builder(
-                                              padding: const EdgeInsets.all(4),
+                                              padding: const EdgeInsets.all(8),
                                               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossCount: 4,
-                                                childAspectRatio: 2.5,
-                                                crossAxisSpacing: 2,
-                                                mainAxisSpacing: 2,
+                                                crossAxisCount: 2,
+                                                childAspectRatio: 3.0,
+                                                crossAxisSpacing: 4,
+                                                mainAxisSpacing: 4,
                                               ),
                                               itemCount: selectedProvisions.length,
                                               itemBuilder: (context, index) {
                                                 final provision = selectedProvisions[index];
                                                 return Chip(
                                                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                                  visualDensity: VisualDensity.compact,
                                                   label: Text(
                                                     provision.id,
-                                                    style: const TextStyle(fontSize: 10),
+                                                    style: const TextStyle(fontSize: 12),
                                                     overflow: TextOverflow.ellipsis,
                                                   ),
-                                                  labelPadding: const EdgeInsets.symmetric(horizontal: 2),
+                                                  labelPadding: const EdgeInsets.symmetric(horizontal: 4),
                                                   avatar: CircleAvatar(
                                                     backgroundColor: colorScheme.primary,
-                                                    radius: 8,
+                                                    radius: 10,
                                                     child: Text(
                                                       provision.id[0],
-                                                      style: const TextStyle(fontSize: 8, color: Colors.white),
+                                                      style: const TextStyle(fontSize: 10, color: Colors.white),
                                                     ),
                                                   ),
-                                                  deleteIcon: const Icon(Icons.close, size: 12),
+                                                  deleteIcon: const Icon(Icons.close, size: 14),
                                                   onDeleted: () {
                                                     final provider = Provider.of<ProvisionsProvider>(
                                                       context,
@@ -439,176 +433,23 @@ class DeficitTracker extends StatelessWidget {
   
   Widget _buildDeficitChart(BuildContext context, bool isImproving) {
     final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-    final isSmallScreen = MediaQuery.of(context).size.width < 600;
     
-    // If no provisions are selected, show a simple comparison
-    if (selectedProvisions.isEmpty) {
-      return BarChart(
-        BarChartData(
-          alignment: BarChartAlignment.spaceAround,
-          maxY: projectedDeficit * 1.1,
-          minY: 0,
-          gridData: FlGridData(show: false),
-          borderData: FlBorderData(show: false),
-          titlesData: FlTitlesData(
-            show: true,
-            bottomTitles: AxisTitles(
-              sideTitles: SideTitles(
-                showTitles: true,
-                getTitlesWidget: (value, meta) {
-                  String text = '';
-                  if (value == 0) text = 'Projected';
-                  if (value == 1) text = 'Current';
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      text,
-                      style: textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurface.withOpacity(0.7),
-                        fontSize: isSmallScreen ? 10 : 12,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          ),
-          barGroups: [
-            BarChartGroupData(
-              x: 0,
-              barRods: [
-                BarChartRodData(
-                  toY: projectedDeficit,
-                  color: colorScheme.error,
-                  width: isSmallScreen ? 15 : 20,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(4),
-                    topRight: Radius.circular(4),
-                  ),
-                ),
-              ],
-            ),
-            BarChartGroupData(
-              x: 1,
-              barRods: [
-                BarChartRodData(
-                  toY: currentDeficit,
-                  color: isImproving ? colorScheme.primary : colorScheme.error,
-                  width: isSmallScreen ? 15 : 20,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(4),
-                    topRight: Radius.circular(4),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-    }
-    
-    // Create a stacked bar chart showing impact of each provision
-    return Column(
-      children: [
-        Expanded(
-          child: _buildStackedBarChart(context, isSmallScreen, isImproving),
-        ),
-        if (selectedProvisions.isNotEmpty) ...[  
-          const SizedBox(height: 8),
-          _buildLegend(context, isSmallScreen),
-        ],
-      ],
-    );
-  }
-  
-  Widget _buildStackedBarChart(BuildContext context, bool isSmallScreen, bool isImproving) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-    
-    // Calculate the impact of each provision
-    final totalReduction = projectedDeficit - currentDeficit;
-    final List<BarChartRodStackItem> stackItems = [];
-    
-    // Start at zero for the stack
-    double currentStackTotal = 0;
-    
-    // Add each provision's impact as a stack item
-    for (int i = 0; i < selectedProvisions.length; i++) {
-      final provision = selectedProvisions[i];
-      // In a real app, you would use actual impact values from your data model
-      // Here we're distributing the impact evenly for demonstration
-      double impact = totalReduction / selectedProvisions.length;
-      
-      // Create a stack item from current total to current total + impact
-      stackItems.add(
-        BarChartRodStackItem(
-          currentStackTotal, 
-          currentStackTotal + impact, 
-          _getProvisionColor(provision.id[0], colorScheme),
-        ),
-      );
-      
-      // Update the running total
-      currentStackTotal += impact;
-    }
-    
-    // Create the bar chart data
     return BarChart(
       BarChartData(
-        alignment: BarChartAlignment.center,
+        alignment: BarChartAlignment.spaceAround,
         maxY: projectedDeficit * 1.1,
         minY: 0,
-        gridData: FlGridData(
-          show: true,
-          horizontalInterval: projectedDeficit / 5,
-          getDrawingHorizontalLine: (value) => FlLine(
-            color: colorScheme.outlineVariant.withOpacity(0.2),
-            strokeWidth: 1,
-            dashArray: [5, 5],
-          ),
-        ),
+        gridData: FlGridData(show: false),
         borderData: FlBorderData(show: false),
-        titlesData: FlTitlesData(
-          show: true,
-          bottomTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              getTitlesWidget: (value, meta) {
-                String text = '';
-                if (value == 0) text = 'Projected';
-                if (value == 1) text = 'Savings';
-                if (value == 2) text = 'Current';
-                return Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    text,
-                    style: textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurface.withOpacity(0.7),
-                      fontSize: isSmallScreen ? 10 : 12,
-                    ),
-                  ),
-                );
-              },
-              reservedSize: 30,
-            ),
-          ),
-          leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        ),
+        titlesData: FlTitlesData(show: false),
         barGroups: [
-          // Projected deficit bar
           BarChartGroupData(
             x: 0,
             barRods: [
               BarChartRodData(
                 toY: projectedDeficit,
                 color: colorScheme.error,
-                width: isSmallScreen ? 30 : 40,
+                width: 20,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(4),
                   topRight: Radius.circular(4),
@@ -616,29 +457,13 @@ class DeficitTracker extends StatelessWidget {
               ),
             ],
           ),
-          // Stacked bar showing provision impacts
           BarChartGroupData(
             x: 1,
             barRods: [
               BarChartRodData(
-                toY: totalReduction,
-                width: isSmallScreen ? 30 : 40,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(4),
-                  topRight: Radius.circular(4),
-                ),
-                rodStackItems: stackItems,
-              ),
-            ],
-          ),
-          // Current deficit bar
-          BarChartGroupData(
-            x: 2,
-            barRods: [
-              BarChartRodData(
                 toY: currentDeficit,
                 color: isImproving ? colorScheme.primary : colorScheme.error,
-                width: isSmallScreen ? 30 : 40,
+                width: 20,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(4),
                   topRight: Radius.circular(4),
@@ -649,55 +474,5 @@ class DeficitTracker extends StatelessWidget {
         ],
       ),
     );
-  }
-  
-  Widget _buildLegend(BuildContext context, bool isSmallScreen) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-    
-    return Container(
-      height: 30,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: selectedProvisions.map((provision) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 12,
-                  height: 12,
-                  decoration: BoxDecoration(
-                    color: _getProvisionColor(provision.id[0], colorScheme),
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  provision.id,
-                  style: textTheme.bodySmall?.copyWith(
-                    fontSize: isSmallScreen ? 10 : 12,
-                  ),
-                ),
-              ],
-            ),
-          );
-        }).toList(),
-      ),
-    );
-  }
-  
-  Color _getProvisionColor(String categoryId, ColorScheme colorScheme) {
-    switch (categoryId) {
-      case 'A': return Colors.blue.shade400;
-      case 'B': return Colors.green.shade400;
-      case 'C': return Colors.orange.shade400;
-      case 'E': return Colors.purple.shade400;
-      case 'F': return Colors.teal.shade400;
-      case 'G': return Colors.indigo.shade400;
-      case 'H': return Colors.amber.shade400;
-      default: return colorScheme.primary.withOpacity(0.7);
-    }
   }
 }

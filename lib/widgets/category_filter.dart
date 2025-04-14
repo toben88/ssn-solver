@@ -37,8 +37,12 @@ class CategoryFilter extends StatelessWidget {
           'payroll_tax': Colors.purple,
         };
 
+        // Get screen width to determine if we're on a small screen
+        final screenWidth = MediaQuery.of(context).size.width;
+        final isSmallScreen = screenWidth < 600;
+        
         return Container(
-          height: 64,
+          height: isSmallScreen ? 56 : 64,
           decoration: BoxDecoration(
             color: colorScheme.surface,
             border: Border(
@@ -48,7 +52,7 @@ class CategoryFilter extends StatelessWidget {
           ),
           child: ListView(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: isSmallScreen ? 6 : 8),
             children: [
               _buildFilterChip(
                 context,
@@ -86,9 +90,19 @@ class CategoryFilter extends StatelessWidget {
   ) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
+    
+    // Shorten labels on small screens
+    String displayLabel = label;
+    if (isSmallScreen) {
+      if (label == 'All Provisions') displayLabel = 'All';
+      else if (label.length > 12) {
+        displayLabel = label.split(' ')[0];
+      }
+    }
     
     return Padding(
-      padding: const EdgeInsets.only(right: 12),
+      padding: EdgeInsets.only(right: isSmallScreen ? 8 : 12),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
@@ -103,7 +117,10 @@ class CategoryFilter extends StatelessWidget {
           onTap: () => provider.selectCategory(id),
           borderRadius: BorderRadius.circular(24),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: EdgeInsets.symmetric(
+              horizontal: isSmallScreen ? 12 : 16, 
+              vertical: isSmallScreen ? 6 : 8
+            ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -114,10 +131,11 @@ class CategoryFilter extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  label,
+                  displayLabel,
                   style: textTheme.labelLarge?.copyWith(
                     color: isSelected ? color : colorScheme.onSurface,
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                    fontSize: isSmallScreen ? 12 : null,
                   ),
                 ),
               ],

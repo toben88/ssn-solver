@@ -11,9 +11,10 @@ class ProvisionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Social Security Solver'),
+        title: Text('Social Security Solver', style: TextStyle(fontSize: isSmallScreen ? 18 : 20)),
         elevation: 0,
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -98,20 +99,27 @@ class ProvisionsScreen extends StatelessWidget {
                           onRefresh: () async {
                             provider.refresh();
                           },
-                          child: ListView.builder(
-                            padding: const EdgeInsets.all(16),
-                            itemCount: provider.provisions.length,
+                          child: RawScrollbar(
+                            thumbVisibility: true,
+                            trackVisibility: true,
+                            thickness: 8,
+                            thumbColor: Theme.of(context).colorScheme.primary.withOpacity(0.6),
+                            trackColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                            radius: const Radius.circular(10),
+                            child: ListView.builder(
+                              padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
+                              itemCount: provider.provisions.length,
                             itemBuilder: (context, index) {
                               final provision = provider.provisions[index];
                               return Padding(
-                                padding: const EdgeInsets.only(bottom: 16),
+                                padding: EdgeInsets.only(bottom: isSmallScreen ? 12 : 16),
                                 child: Draggable<Provision>(
                                   data: provision,
                                   feedback: Material(
                                     elevation: 4,
                                     borderRadius: BorderRadius.circular(8),
                                     child: Container(
-                                      width: MediaQuery.of(context).size.width * 0.9,
+                                      width: MediaQuery.of(context).size.width * (isSmallScreen ? 0.85 : 0.9),
                                       child: ProvisionCard(
                                         provision: provision,
                                         isDragging: true,
@@ -132,6 +140,7 @@ class ProvisionsScreen extends StatelessWidget {
                             },
                           ),
                         ),
+                        ),
                 ),
               ],
             );
@@ -143,6 +152,7 @@ class ProvisionsScreen extends StatelessWidget {
         builder: (context, provider, _) {
           return provider.selectedProvisions.isNotEmpty
               ? FloatingActionButton(
+                  mini: isSmallScreen,
                   onPressed: () {
                     // Show confirmation dialog
                     showDialog(

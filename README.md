@@ -87,3 +87,27 @@ The app uses a structured data model to represent Social Security reform provisi
 ## Data Sources
 
 Provision data is based on analysis from the Social Security Administration's Office of the Chief Actuary, which provides estimates of how various policy changes would affect the program's long-term financial outlook.
+
+## Visualization
+
+The app includes several data visualization features:
+
+- **Stacked Bar Chart**: Shows how each provision contributes to deficit reduction in a space-efficient layout
+- **Color-Coded Segments**: Each provision category has a unique color for easy identification
+- **Interactive Legend**: Scrollable legend showing all selected provisions
+- **Responsive Design**: Visualizations adapt to both desktop and mobile screen sizes
+
+## Responsive Design
+
+The Social Security Solver is fully responsive and optimized for various screen sizes:
+
+- **Mobile Layout**: Vertical arrangement with compact UI elements
+- **Desktop Layout**: Horizontal arrangement with expanded visualization
+- **Touch-Friendly**: All interactive elements are properly sized for touch input
+- **Adaptive Typography**: Text scales appropriately across devices
+
+## License and Copyright
+
+© 2025 Rico Vision LLC. All rights reserved.
+
+This software and its content are protected by copyright law. Unauthorized reproduction or distribution of this software, or any portion of it, may result in severe civil and criminal penalties, and will be prosecuted to the maximum extent possible under law.

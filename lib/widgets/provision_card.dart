@@ -18,6 +18,7 @@ class ProvisionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
     
     // Determine the category color based on the provision's category
     Color categoryColor;
@@ -53,7 +54,8 @@ class ProvisionCard extends StatelessWidget {
       child: ExpansionTile(
         leading: CircleAvatar(
           backgroundColor: categoryColor.withOpacity(0.2),
-          child: Icon(categoryIcon, color: categoryColor, size: 20),
+          radius: isSmallScreen ? 16 : 20,
+          child: Icon(categoryIcon, color: categoryColor, size: isSmallScreen ? 16 : 20),
         ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,7 +102,7 @@ class ProvisionCard extends StatelessWidget {
         maintainState: true,
         childrenPadding: EdgeInsets.zero,
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
-        tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        tilePadding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 12 : 16, vertical: isSmallScreen ? 6 : 8),
         children: isDragging
             ? []
             : [
@@ -111,13 +113,13 @@ class ProvisionCard extends StatelessWidget {
                       bottom: Radius.circular(12),
                     ),
                   ),
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Description section
                       Container(
-                        padding: const EdgeInsets.all(12),
+                        padding: EdgeInsets.all(isSmallScreen ? 8 : 12),
                         decoration: BoxDecoration(
                           color: colorScheme.surfaceVariant.withOpacity(0.5),
                           borderRadius: BorderRadius.circular(8),
@@ -132,7 +134,7 @@ class ProvisionCard extends StatelessWidget {
                       
                       // Impacts section
                       if (provision.impacts.isNotEmpty) ...[                        
-                        const SizedBox(height: 16),
+                        SizedBox(height: isSmallScreen ? 12 : 16),
                         Row(
                           children: [
                             Icon(Icons.insights, size: 16, color: categoryColor),
@@ -146,7 +148,7 @@ class ProvisionCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: isSmallScreen ? 6 : 8),
                         ...provision.impacts.map(
                           (impact) => Padding(
                             padding: const EdgeInsets.only(bottom: 8),
@@ -171,7 +173,7 @@ class ProvisionCard extends StatelessWidget {
                       
                       // Related links section
                       if (provision.relatedLinks.isNotEmpty) ...[                        
-                        const SizedBox(height: 16),
+                        SizedBox(height: isSmallScreen ? 12 : 16),
                         Row(
                           children: [
                             Icon(Icons.link, size: 16, color: categoryColor),
@@ -185,7 +187,7 @@ class ProvisionCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: isSmallScreen ? 6 : 8),
                         Wrap(
                           spacing: 8,
                           children: provision.relatedLinks.entries.map(
@@ -209,9 +211,10 @@ class ProvisionCard extends StatelessWidget {
                       ],
                       
                       // Add to selection button
-                      const SizedBox(height: 16),
+                      SizedBox(height: isSmallScreen ? 12 : 16),
                       SizedBox(
                         width: double.infinity,
+                        height: isSmallScreen ? 40 : 48,
                         child: FilledButton.icon(
                           style: FilledButton.styleFrom(
                             backgroundColor: categoryColor,
