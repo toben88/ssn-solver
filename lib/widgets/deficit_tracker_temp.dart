@@ -4,7 +4,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' show max;
 import '../models/provision.dart';
 import '../providers/provisions_provider.dart';
-import './charts/donut_chart.dart';
 
 class DeficitTracker extends StatelessWidget {
   final double projectedDeficit;
@@ -204,25 +203,25 @@ class DeficitTracker extends StatelessWidget {
                                             trackColor: colorScheme.primary.withOpacity(0.1),
                                             radius: const Radius.circular(10),
                                             child: GridView.builder(
-                                              padding: EdgeInsets.only(left: 4, right: 4, bottom: 4, top: 0),
+                                              padding: EdgeInsets.only(left: 4, right: 4, bottom: 4, top: isSmallScreen ? 0 : 4),
                                               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                                 crossAxisCount: 4,
-                                                childAspectRatio: isSmallScreen ? 2.0 : 0.33,
+                                                childAspectRatio: isSmallScreen ? 0.4 : 0.33,
                                                 crossAxisSpacing: 2,
-                                                mainAxisSpacing: 0,
+                                                mainAxisSpacing: 2,
                                               ),
                                               itemCount: selectedProvisions.length,
                                               itemBuilder: (context, index) {
                                                 final provision = selectedProvisions[index];
                                                 return Chip(
                                                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                                  visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                                  visualDensity: VisualDensity.compact,
                                                   label: Text(
                                                     provision.id,
-                                                    style: TextStyle(fontSize: isSmallScreen ? 9 : 10),
+                                                    style: const TextStyle(fontSize: 10),
                                                     overflow: TextOverflow.ellipsis,
                                                   ),
-                                                  padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
+                                                  labelPadding: const EdgeInsets.symmetric(horizontal: 2),
                                                   avatar: CircleAvatar(
                                                     backgroundColor: colorScheme.primary,
                                                     radius: 8,
@@ -383,25 +382,25 @@ class DeficitTracker extends StatelessWidget {
                                             trackColor: colorScheme.primary.withOpacity(0.1),
                                             radius: const Radius.circular(10),
                                             child: GridView.builder(
-                                              padding: EdgeInsets.only(left: 4, right: 4, bottom: 4, top: 0),
+                                              padding: EdgeInsets.only(left: 4, right: 4, bottom: 4, top: isSmallScreen ? 0 : 4),
                                               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                                 crossAxisCount: 4,
                                                 childAspectRatio: 2.5,
                                                 crossAxisSpacing: 2,
-                                                mainAxisSpacing: 4, // Fix the spacing error by using valid mainAxisSpacing value
+                                                mainAxisSpacing: 2,
                                               ),
                                               itemCount: selectedProvisions.length,
                                               itemBuilder: (context, index) {
                                                 final provision = selectedProvisions[index];
                                                 return Chip(
                                                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                                  visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                                  visualDensity: VisualDensity.compact,
                                                   label: Text(
                                                     provision.id,
-                                                    style: TextStyle(fontSize: isSmallScreen ? 9 : 10),
+                                                    style: const TextStyle(fontSize: 10),
                                                     overflow: TextOverflow.ellipsis,
                                                   ),
-                                                  padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
+                                                  labelPadding: const EdgeInsets.symmetric(horizontal: 2),
                                                   avatar: CircleAvatar(
                                                     backgroundColor: colorScheme.primary,
                                                     radius: 8,

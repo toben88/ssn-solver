@@ -27,8 +27,8 @@ class DeficitTracker extends StatelessWidget {
     final isSmallScreen = MediaQuery.of(context).size.width < 600;
     
     return Container(
-      height: isSmallScreen ? 450 : 320,
-      padding: const EdgeInsets.all(16),
+      height: isSmallScreen ? 360 : 246,
+      padding: EdgeInsets.all(isSmallScreen ? 8 : 12),
       decoration: BoxDecoration(
         color: colorScheme.surface,
         gradient: LinearGradient(
@@ -70,7 +70,7 @@ class DeficitTracker extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: isSmallScreen ? 4 : 6),
           Expanded(
             child: isSmallScreen
                 ? Column(
@@ -82,11 +82,15 @@ class DeficitTracker extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            // Deficit chart
+                            // Donut Chart (replacing the original deficit chart)
                             Expanded(
-                              child: _buildDeficitChart(context, isImproving),
+                              child: DonutChart(
+                                projectedDeficit: projectedDeficit,
+                                currentDeficit: currentDeficit,
+                                selectedProvisions: selectedProvisions,
+                              ),
                             ),
-                            const SizedBox(height: 8),
+                            SizedBox(height: isSmallScreen ? 4 : 6),
                             // Deficit values
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,7 +136,7 @@ class DeficitTracker extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: isSmallScreen ? 8 : 12),
                       // Selected provisions (bottom on mobile)
                       Expanded(
                         flex: 3,
@@ -261,11 +265,15 @@ class DeficitTracker extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            // Deficit chart
+                            // Donut Chart (replacing the original deficit chart)
                             Expanded(
-                              child: _buildDeficitChart(context, isImproving),
+                              child: DonutChart(
+                                projectedDeficit: projectedDeficit,
+                                currentDeficit: currentDeficit,
+                                selectedProvisions: selectedProvisions,
+                              ),
                             ),
-                            const SizedBox(height: 8),
+                            SizedBox(height: isSmallScreen ? 4 : 6),
                             // Deficit values
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -383,25 +391,23 @@ class DeficitTracker extends StatelessWidget {
                                             trackColor: colorScheme.primary.withOpacity(0.1),
                                             radius: const Radius.circular(10),
                                             child: GridView.builder(
-                                              padding: EdgeInsets.only(left: 4, right: 4, bottom: 4, top: 0),
-                                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 4,
+                                              padding: const EdgeInsets.all(4),
+                                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 6,
                                                 childAspectRatio: 2.5,
-                                                crossAxisSpacing: 2,
-                                                mainAxisSpacing: 4, // Fix the spacing error by using valid mainAxisSpacing value
+                                                crossAxisSpacing: 4,
+                                                mainAxisSpacing: 4,
                                               ),
                                               itemCount: selectedProvisions.length,
                                               itemBuilder: (context, index) {
                                                 final provision = selectedProvisions[index];
                                                 return Chip(
                                                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                                  visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                                  visualDensity: const VisualDensity(horizontal: -2, vertical: -2),
                                                   label: Text(
                                                     provision.id,
-                                                    style: TextStyle(fontSize: isSmallScreen ? 9 : 10),
-                                                    overflow: TextOverflow.ellipsis,
+                                                    style: const TextStyle(fontSize: 10),
                                                   ),
-                                                  padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
                                                   avatar: CircleAvatar(
                                                     backgroundColor: colorScheme.primary,
                                                     radius: 8,
@@ -433,257 +439,6 @@ class DeficitTracker extends StatelessWidget {
                   ),
           ),
         ],
-      ),
-    );
-  }
-  
-  Widget _buildDeficitChart(BuildContext context, bool isImproving) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-    final isSmallScreen = MediaQuery.of(context).size.width < 600;
-    
-    // If no provisions are selected, show a simple comparison
-    if (selectedProvisions.isEmpty) {
-      return BarChart(
-        BarChartData(
-          alignment: BarChartAlignment.spaceAround,
-          maxY: projectedDeficit * 1.1,
-          minY: 0,
-          gridData: FlGridData(show: false),
-          borderData: FlBorderData(show: false),
-          titlesData: FlTitlesData(
-            show: true,
-            bottomTitles: AxisTitles(
-              sideTitles: SideTitles(
-                showTitles: true,
-                getTitlesWidget: (value, meta) {
-                  String text = '';
-                  if (value == 0) text = 'Projected';
-                  if (value == 1) text = 'Current';
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      text,
-                      style: textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurface.withOpacity(0.7),
-                        fontSize: isSmallScreen ? 10 : 12,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          ),
-          barGroups: [
-            BarChartGroupData(
-              x: 0,
-              barRods: [
-                BarChartRodData(
-                  toY: projectedDeficit,
-                  color: colorScheme.error,
-                  width: isSmallScreen ? 15 : 20,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(4),
-                    topRight: Radius.circular(4),
-                  ),
-                ),
-              ],
-            ),
-            BarChartGroupData(
-              x: 1,
-              barRods: [
-                BarChartRodData(
-                  toY: currentDeficit,
-                  color: isImproving ? colorScheme.primary : colorScheme.error,
-                  width: isSmallScreen ? 15 : 20,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(4),
-                    topRight: Radius.circular(4),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-    }
-    
-    // Create a stacked bar chart showing impact of each provision
-    return Column(
-      children: [
-        Expanded(
-          child: _buildStackedBarChart(context, isSmallScreen, isImproving),
-        ),
-        if (selectedProvisions.isNotEmpty) ...[  
-          const SizedBox(height: 8),
-          _buildLegend(context, isSmallScreen),
-        ],
-      ],
-    );
-  }
-  
-  Widget _buildStackedBarChart(BuildContext context, bool isSmallScreen, bool isImproving) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-    
-    // Calculate the impact of each provision
-    final totalReduction = projectedDeficit - currentDeficit;
-    final List<BarChartRodStackItem> stackItems = [];
-    
-    // Start at zero for the stack
-    double currentStackTotal = 0;
-    
-    // Add each provision's impact as a stack item
-    for (int i = 0; i < selectedProvisions.length; i++) {
-      final provision = selectedProvisions[i];
-      // In a real app, you would use actual impact values from your data model
-      // Here we're distributing the impact evenly for demonstration
-      double impact = totalReduction / selectedProvisions.length;
-      
-      // Create a stack item from current total to current total + impact
-      stackItems.add(
-        BarChartRodStackItem(
-          currentStackTotal, 
-          currentStackTotal + impact, 
-          _getProvisionColor(provision.id[0], colorScheme),
-        ),
-      );
-      
-      // Update the running total
-      currentStackTotal += impact;
-    }
-    
-    // Create the bar chart data
-    return BarChart(
-      BarChartData(
-        alignment: BarChartAlignment.center,
-        maxY: projectedDeficit * 1.1,
-        minY: 0,
-        gridData: FlGridData(
-          show: true,
-          horizontalInterval: projectedDeficit / 5,
-          getDrawingHorizontalLine: (value) => FlLine(
-            color: colorScheme.outlineVariant.withOpacity(0.2),
-            strokeWidth: 1,
-            dashArray: [5, 5],
-          ),
-        ),
-        borderData: FlBorderData(show: false),
-        titlesData: FlTitlesData(
-          show: true,
-          bottomTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              getTitlesWidget: (value, meta) {
-                String text = '';
-                if (value == 0) text = 'Projected';
-                if (value == 1) text = 'Savings';
-                if (value == 2) text = 'Current';
-                return Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    text,
-                    style: textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurface.withOpacity(0.7),
-                      fontSize: isSmallScreen ? 10 : 12,
-                    ),
-                  ),
-                );
-              },
-              reservedSize: 30,
-            ),
-          ),
-          leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        ),
-        barGroups: [
-          // Projected deficit bar
-          BarChartGroupData(
-            x: 0,
-            barRods: [
-              BarChartRodData(
-                toY: projectedDeficit,
-                color: colorScheme.error,
-                width: isSmallScreen ? 30 : 40,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(4),
-                  topRight: Radius.circular(4),
-                ),
-              ),
-            ],
-          ),
-          // Stacked bar showing provision impacts
-          BarChartGroupData(
-            x: 1,
-            barRods: [
-              BarChartRodData(
-                toY: totalReduction,
-                width: isSmallScreen ? 30 : 40,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(4),
-                  topRight: Radius.circular(4),
-                ),
-                rodStackItems: stackItems,
-              ),
-            ],
-          ),
-          // Current deficit bar
-          BarChartGroupData(
-            x: 2,
-            barRods: [
-              BarChartRodData(
-                toY: currentDeficit,
-                color: isImproving ? colorScheme.primary : colorScheme.error,
-                width: isSmallScreen ? 30 : 40,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(4),
-                  topRight: Radius.circular(4),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-  
-  Widget _buildLegend(BuildContext context, bool isSmallScreen) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-    
-    return Container(
-      height: 30,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: selectedProvisions.map((provision) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 12,
-                  height: 12,
-                  decoration: BoxDecoration(
-                    color: _getProvisionColor(provision.id[0], colorScheme),
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  provision.id,
-                  style: textTheme.bodySmall?.copyWith(
-                    fontSize: isSmallScreen ? 10 : 12,
-                  ),
-                ),
-              ],
-            ),
-          );
-        }).toList(),
       ),
     );
   }

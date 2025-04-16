@@ -3,8 +3,9 @@ import 'package:provider/provider.dart';
 import '../providers/provisions_provider.dart';
 import '../widgets/category_filter.dart';
 import '../widgets/provision_card.dart';
-import '../widgets/deficit_tracker.dart';
+import '../widgets/deficit_tracker_donut.dart';
 import '../models/provision.dart';
+import 'visualizations_screen.dart';
 
 class ProvisionsScreen extends StatelessWidget {
   const ProvisionsScreen({super.key});
@@ -148,41 +149,77 @@ class ProvisionsScreen extends StatelessWidget {
         ),
       ),
       // Add a floating action button to reset selections
-      floatingActionButton: Consumer<ProvisionsProvider>(
-        builder: (context, provider, _) {
-          return provider.selectedProvisions.isNotEmpty
-              ? FloatingActionButton(
-                  mini: isSmallScreen,
-                  onPressed: () {
-                    // Show confirmation dialog
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: const Text('Reset Selections?'),
-                        content: const Text('This will remove all selected provisions and reset the deficit to its original value.'),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text('Cancel'),
-                          ),
-                          FilledButton(
-                            onPressed: () {
-                              provider.resetSelections();
-                              Navigator.pop(context);
-                            },
-                            child: const Text('Reset'),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  backgroundColor: Theme.of(context).colorScheme.error,
-                  foregroundColor: Theme.of(context).colorScheme.onError,
-                  tooltip: 'Reset selections',
-                  child: const Icon(Icons.restart_alt),
-                )
-              : const SizedBox.shrink();
-        },
+      // Reset selections button (original position)
+      // Use a custom approach for both buttons with absolute positioning
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Visualize button on the left (same size as reset)
+          Positioned(
+            left: 16,
+            bottom: 16,
+            child: FloatingActionButton(
+              mini: isSmallScreen,
+              heroTag: 'visualize',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const VisualizationsScreen(),
+                  ),
+                );
+              },
+              tooltip: isSmallScreen ? 'Visualize' : 'Visualizations',
+              backgroundColor: Theme.of(context).colorScheme.tertiary,
+              foregroundColor: Theme.of(context).colorScheme.onTertiary,
+              child: const Icon(Icons.auto_graph),
+            ),
+          ),
+          
+          // Reset button on the right
+          Positioned(
+            right: 16,
+            bottom: 16,
+            child: Consumer<ProvisionsProvider>(
+              builder: (context, provider, _) {
+                return provider.selectedProvisions.isNotEmpty
+                    ? FloatingActionButton(
+                        mini: isSmallScreen,
+                        heroTag: 'reset',
+                        onPressed: () {
+                          // Show confirmation dialog
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Reset Selections?'),
+                              content: const Text('This will remove all selected provisions and reset the deficit to its original value.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('Cancel'),
+                                ),
+                                FilledButton(
+                                  onPressed: () {
+                                    provider.resetSelections();
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Reset'),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        backgroundColor: Theme.of(context).colorScheme.error,
+                        foregroundColor: Theme.of(context).colorScheme.onError,
+                        tooltip: 'Reset selections',
+                        child: const Icon(Icons.restart_alt),
+                      )
+                    : const SizedBox.shrink();
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

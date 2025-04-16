@@ -74,6 +74,7 @@ class ProvisionCard extends StatelessWidget {
                     style: textTheme.labelSmall?.copyWith(
                       color: categoryColor,
                       fontWeight: FontWeight.bold,
+                      fontSize: isSmallScreen ? 9 : 11,
                     ),
                   ),
                 ),
@@ -83,6 +84,7 @@ class ProvisionCard extends StatelessWidget {
                     provision.category,
                     style: textTheme.labelMedium?.copyWith(
                       color: categoryColor,
+                      fontSize: isSmallScreen ? 10 : 12,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -94,6 +96,7 @@ class ProvisionCard extends StatelessWidget {
               provision.title,
               style: textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
+                fontSize: isSmallScreen ? 13 : 16,
               ),
             ),
           ],
@@ -102,7 +105,7 @@ class ProvisionCard extends StatelessWidget {
         maintainState: true,
         childrenPadding: EdgeInsets.zero,
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
-        tilePadding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 12 : 16, vertical: isSmallScreen ? 6 : 8),
+        tilePadding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 8 : 16, vertical: isSmallScreen ? 4 : 8),
         children: isDragging
             ? []
             : [
@@ -113,7 +116,7 @@ class ProvisionCard extends StatelessWidget {
                       bottom: Radius.circular(12),
                     ),
                   ),
-                  padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
+                  padding: EdgeInsets.all(isSmallScreen ? 8 : 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -144,6 +147,7 @@ class ProvisionCard extends StatelessWidget {
                               style: textTheme.titleSmall?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: categoryColor,
+                                fontSize: isSmallScreen ? 11 : 14,
                               ),
                             ),
                           ],
@@ -162,6 +166,7 @@ class ProvisionCard extends StatelessWidget {
                                     impact,
                                     style: textTheme.bodyMedium?.copyWith(
                                       color: colorScheme.onSurface.withOpacity(0.9),
+                                      fontSize: isSmallScreen ? 11 : 14,
                                     ),
                                   ),
                                 ),
@@ -183,6 +188,7 @@ class ProvisionCard extends StatelessWidget {
                               style: textTheme.titleSmall?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: categoryColor,
+                                fontSize: isSmallScreen ? 11 : 14,
                               ),
                             ),
                           ],
