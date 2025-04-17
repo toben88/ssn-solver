@@ -110,37 +110,17 @@ class ProvisionsScreen extends StatelessWidget {
                             child: ListView.builder(
                               padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
                               itemCount: provider.provisions.length,
-                            itemBuilder: (context, index) {
-                              final provision = provider.provisions[index];
-                              return Padding(
-                                padding: EdgeInsets.only(bottom: isSmallScreen ? 12 : 16),
-                                child: Draggable<Provision>(
-                                  data: provision,
-                                  feedback: Material(
-                                    elevation: 4,
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width * (isSmallScreen ? 0.85 : 0.9),
-                                      child: ProvisionCard(
-                                        provision: provision,
-                                        isDragging: true,
-                                      ),
-                                    ),
-                                  ),
-                                  childWhenDragging: Opacity(
-                                    opacity: 0.5,
-                                    child: ProvisionCard(
-                                      provision: provision,
-                                    ),
-                                  ),
+                              itemBuilder: (context, index) {
+                                final provision = provider.provisions[index];
+                                return Padding(
+                                  padding: EdgeInsets.only(bottom: isSmallScreen ? 12 : 16),
                                   child: ProvisionCard(
                                     provision: provision,
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
-                        ),
                         ),
                 ),
               ],

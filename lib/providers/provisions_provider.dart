@@ -26,6 +26,18 @@ class ProvisionsProvider with ChangeNotifier {
       _provisions = _service.getAllProvisions();
       debugPrint('Provisions loaded: ${_provisions.length}');
       _isInitialized = true;
+      
+      // Find and auto-select provision A1 by default
+      try {
+        final provisionA1 = _provisions.firstWhere(
+          (p) => p.id == 'A1',
+        );
+        debugPrint('Auto-selecting provision A1');
+        addSelectedProvision(provisionA1);
+      } catch (e) {
+        debugPrint('Provision A1 not found for auto-selection: $e');
+      }
+      
       notifyListeners();
     } catch (e, stackTrace) {
       debugPrint('Error initializing ProvisionsProvider: $e');

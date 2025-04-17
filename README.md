@@ -7,15 +7,16 @@ A Flutter application designed to model and analyze solutions for the Social Sec
 The Social Security Solver app allows users to:
 
 - Explore different policy provisions that could help solve the Social Security funding shortfall
-- Drag and drop provisions to see their combined impact on the deficit
+- Select provisions via checkboxes to see their combined impact on the deficit
 - Filter provisions by category (COLA, Benefit Level, Retirement Age, etc.)
 - View detailed information about each provision, including its fiscal impact
 - Track progress toward eliminating the projected deficit
+- Starts with provision A1 pre-selected to demonstrate functionality
 
 ## Features
 
 - **Interactive Deficit Tracker**: Visual representation of the current deficit and progress toward solvency
-- **Drag-and-Drop Interface**: Intuitive way to select and combine different policy provisions
+- **Checkbox Selection Interface**: Intuitive way to select and combine different policy provisions
 - **Category Filtering**: Easy navigation through different types of reform options
 - **Detailed Provision Cards**: Comprehensive information about each policy option
 - **Impact Visualization**: Clear display of how each provision affects the long-term deficit
@@ -24,13 +25,14 @@ The Social Security Solver app allows users to:
 
 The app uses a structured data model to represent Social Security reform provisions:
 
-- **Data Source**: All provision data is stored in `lib/data/provisions_data.dart` as a Dart constant map
+- **Data Source**: All provision data is stored in `lib/data/provisions_data_web.dart` with detailed policy information
 - **Organization**: Provisions are organized by categories (COLA, benefit level, retirement age, etc.)
 - **Provision Model**: Each provision contains:
   - Unique identifier (e.g., 'A1', 'B1.1')
-  - Title and detailed description
-  - Impact metrics (long-range effect, 75th year effect, etc.)
-  - Links to related resources
+  - Category and title
+  - Detailed description
+  - Impact data including long-range effect on Social Security funding
+  - Related links to charts and tables
 
 ### Example Provision Data Structure
 
@@ -52,18 +54,20 @@ The app uses a structured data model to represent Social Security reform provisi
 ## Project Structure
 
 - `lib/` - Main application code
-  - `data/` - Static data files including provisions_data.dart
+  - `data/` - Static data files including provisions_data_web.dart
   - `models/` - Business logic and data models
     - `provision.dart` - Model class for Social Security provisions
   - `providers/` - State management
     - `provisions_provider.dart` - Manages provision selection and deficit calculation
-  - `screens/` - UI screens
-    - `provisions_screen.dart` - Main screen with deficit tracker and provisions list
-  - `services/` - Backend services
-    - `provisions_service.dart` - Loads and processes provision data
+  - `screens/` - Application screens
+    - `provisions_screen.dart` - Main screen with provisions list and deficit tracker
+    - `actuarial_provisions_screen.dart` - Additional data screen
+    - `visualizations_screen.dart` - Charts and visualizations
+  - `services/` - Business logic services
+    - `provisions_service.dart` - Service for loading and processing provision data
   - `widgets/` - Reusable UI components
-    - `deficit_tracker.dart` - Visualizes current deficit and progress
-    - `provision_card.dart` - Displays individual provision details
+    - `provision_card.dart` - Card showing provision details with checkbox selection
+    - `deficit_tracker_donut.dart` - Donut chart showing deficit progress
     - `category_filter.dart` - Filters provisions by category
 - `assets/` - Static resources
   - `images/` - Image assets
@@ -74,6 +78,35 @@ The app uses a structured data model to represent Social Security reform provisi
 
 - **State Management**: Uses the Provider pattern for state management
 - **Data Flow**: Provisions are loaded from static data, processed by services, and managed by providers
+- **Selection Logic**: Provisions are selected via checkboxes, with provision A1 selected by default at startup
+- **Deficit Calculation**: Real-time calculation of deficit impact based on long-range effect data
+
+## Installation and Running
+
+```bash
+# Clone the repository
+git clone https://github.com/toben88/ssn-solver.git
+
+# Navigate to the project directory
+cd ssn-solver
+
+# Install dependencies
+flutter pub get
+
+# Run the app for web
+flutter run -d chrome
+```
+
+## Deployment
+
+The app is deployed at [ricovision.com/ssnsolver](https://ricovision.com/ssnsolver) and can be built for deployment using:
+
+```bash
+flutter build web --base-href /ssnsolver/
+```
+
+## Technical Details
+
 - **UI Components**: Custom widgets for visualizing deficit and displaying provisions
 - **Deficit Calculation**: Each provision contributes to reducing the projected deficit based on its impact metrics
 

@@ -64,7 +64,7 @@ class _ActuarialProvisionsScreenState extends State<ActuarialProvisionsScreen> {
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Social Security Provisions'),
+        title: const Text('Delete Social Security Provisions'),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())

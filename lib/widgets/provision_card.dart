@@ -106,6 +106,22 @@ class ProvisionCard extends StatelessWidget {
         childrenPadding: EdgeInsets.zero,
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
         tilePadding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 8 : 16, vertical: isSmallScreen ? 4 : 8),
+        trailing: Consumer<ProvisionsProvider>(
+          builder: (context, provider, _) {
+            final isSelected = provider.selectedProvisions.contains(provision);
+            return Checkbox(
+              value: isSelected,
+              onChanged: (bool? value) {
+                if (value == true) {
+                  provider.addSelectedProvision(provision);
+                } else {
+                  provider.removeSelectedProvision(provision);
+                }
+              },
+              activeColor: categoryColor,
+            );
+          },
+        ),
         children: isDragging
             ? []
             : [
@@ -216,27 +232,7 @@ class ProvisionCard extends StatelessWidget {
                         ),
                       ],
                       
-                      // Add to selection button
-                      SizedBox(height: isSmallScreen ? 12 : 16),
-                      SizedBox(
-                        width: double.infinity,
-                        height: isSmallScreen ? 40 : 48,
-                        child: FilledButton.icon(
-                          style: FilledButton.styleFrom(
-                            backgroundColor: categoryColor,
-                            foregroundColor: Colors.white,
-                          ),
-                          onPressed: () {
-                            final provider = Provider.of<ProvisionsProvider>(
-                              context, 
-                              listen: false
-                            );
-                            provider.addSelectedProvision(provision);
-                          },
-                          icon: const Icon(Icons.add),
-                          label: const Text('Add to Selection'),
-                        ),
-                      ),
+
                     ],
                   ),
                 ),
