@@ -66,20 +66,59 @@ class ProvisionsProvider with ChangeNotifier {
   void addSelectedProvision(Provision provision) {
     if (!_selectedProvisions.contains(provision)) {
       _selectedProvisions.add(provision);
-      // Update deficit based on provision's impact
-      // For demonstration, let's assume each provision reduces deficit by 1 trillion
-      // In a real app, you would use actual impact values from the provision
-      _currentDeficit -= 1.0;
+      
+      // Update deficit based on real impact value from the provision
+      // The impact is measured as percentage of payroll in the provisions_data_web.dart
+      // For our simplified deficit calculation, we'll use the long-range effect
+      // scaled to the deficit's units (trillions)
+      
+      // Extract long-range effect from the impacts data
+      // Example format: "Long-range effect: 0.13% of payroll"
+      double impactValue = 0.0;
+      for (String impact in provision.impacts) {
+        if (impact.contains('Long-range effect:')) {
+          try {
+            // Extract the numeric value from impact text
+            String valueStr = impact.replaceAll('Long-range effect:', '').trim();
+            valueStr = valueStr.replaceAll('% of payroll', '').trim();
+            impactValue = double.tryParse(valueStr) ?? 0.0;
+          } catch (e) {
+            debugPrint('Error parsing impact value: $e');
+          }
+        }
+      }
+      
+      // Scale the impact - negative values reduce deficit, positive increase it
+      // For a scaled representation, multiply by 0.3 to convert percentage points to trillions
+      final scaledImpact = impactValue * 0.3;
+      _currentDeficit -= scaledImpact;
+      
+      debugPrint('Added provision: ${provision.id}, Impact: $impactValue%, Scaled: $scaledImpact trillion');
       notifyListeners();
     }
   }
 
   void removeSelectedProvision(Provision provision) {
     if (_selectedProvisions.remove(provision)) {
-      // Update deficit based on provision's impact
-      // For demonstration, let's add back 1 trillion when a provision is removed
-      // In a real app, you would use actual impact values from the provision
-      _currentDeficit += 1.0;
+      // Extract and scale impact value to restore the deficit
+      double impactValue = 0.0;
+      for (String impact in provision.impacts) {
+        if (impact.contains('Long-range effect:')) {
+          try {
+            String valueStr = impact.replaceAll('Long-range effect:', '').trim();
+            valueStr = valueStr.replaceAll('% of payroll', '').trim();
+            impactValue = double.tryParse(valueStr) ?? 0.0;
+          } catch (e) {
+            debugPrint('Error parsing impact value: $e');
+          }
+        }
+      }
+      
+      // Scale the impact - we're removing, so flip the sign
+      final scaledImpact = impactValue * 0.3;
+      _currentDeficit += scaledImpact;
+      
+      debugPrint('Removed provision: ${provision.id}, Impact: $impactValue%, Scaled: $scaledImpact trillion');
       notifyListeners();
     }
   }

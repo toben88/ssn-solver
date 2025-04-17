@@ -155,7 +155,7 @@ class ProvisionsScreen extends StatelessWidget {
       floatingActionButton: Stack(
         fit: StackFit.expand,
         children: [
-          // Visualize button on the left (same size as reset)
+          // Visualize button (left-most)
           Positioned(
             left: 16,
             bottom: 16,
@@ -174,6 +174,23 @@ class ProvisionsScreen extends StatelessWidget {
               backgroundColor: Theme.of(context).colorScheme.tertiary,
               foregroundColor: Theme.of(context).colorScheme.onTertiary,
               child: const Icon(Icons.auto_graph),
+            ),
+          ),
+          
+          // Actuarial data button (middle)
+          Positioned(
+            left: isSmallScreen ? 72 : 96,
+            bottom: 16,
+            child: FloatingActionButton(
+              mini: isSmallScreen,
+              heroTag: 'actuarial',
+              onPressed: () {
+                Navigator.pushNamed(context, '/actuarial');
+              },
+              tooltip: isSmallScreen ? 'Real Data' : 'Actuarial Data',
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              foregroundColor: Theme.of(context).colorScheme.onSecondary,
+              child: const Icon(Icons.data_usage),
             ),
           ),
           

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/provisions_provider.dart';
+import 'providers/selected_provisions_provider.dart';
 import 'screens/provisions_screen.dart';
+import 'screens/actuarial_provisions_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +20,9 @@ class SSNCalculatorApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ProvisionsProvider(),
           lazy: false,
+        ),
+        ChangeNotifierProvider(
+          create: (_) => SelectedProvisionsProvider(),
         ),
       ],
       child: MaterialApp(
@@ -49,7 +54,11 @@ class SSNCalculatorApp extends StatelessWidget {
             child: child!,
           );
         },
-        home: const ProvisionsScreen(),
+        routes: {
+          '/': (context) => const ProvisionsScreen(),
+          '/actuarial': (context) => const ActuarialProvisionsScreen(),
+        },
+        initialRoute: '/',
       ),
     );
   }

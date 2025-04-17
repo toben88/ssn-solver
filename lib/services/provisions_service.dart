@@ -1,51 +1,57 @@
 import '../models/provision.dart';
-import '../data/provisions_data.dart';
+import '../data/provisions_data_web.dart';
+import '../data/csv_import.dart'; // Added for ProvisionModel class
 
 class ProvisionsService {
+  // Get all the provisions data from WebProvisionData
+  final List<ProvisionModel> _webProvisions = WebProvisionData.getProvisionsData();
+  
+  // Get unique category IDs and names
   Map<String, String> getCategoryNames() {
-    final categories = provisionsData['categories'] as List<dynamic>;
-    return Map<String, String>.fromEntries(
-      categories.map((category) => MapEntry(
-            category['id'] as String,
-            category['name'] as String,
-          )),
-    );
+    Map<String, String> categories = {};
+    
+    // Extract unique categories from provisions
+    for (var provision in _webProvisions) {
+      categories[provision.categoryId] = provision.categoryName;
+    }
+    
+    return categories;
   }
 
+  // Get provisions by category ID
   List<Provision> getProvisionsByCategory(String categoryId) {
-    final categories = provisionsData['categories'] as List<dynamic>;
-    final category = categories.firstWhere(
-      (cat) => cat['id'] == categoryId,
-      orElse: () => {'provisions': []},
-    );
-    
-    return List<Map<String, dynamic>>.from(category['provisions'] as List)
-        .map((json) => _createProvision(json, category['name'] as String))
+    return _webProvisions
+        .where((p) => p.categoryId == categoryId)
+        .map(_convertProvisionModel)
         .toList();
   }
 
+  // Get all provisions
   List<Provision> getAllProvisions() {
-    final categories = provisionsData['categories'] as List<dynamic>;
-    List<Provision> allProvisions = [];
-    
-    for (var category in categories) {
-      final provisions = List<Map<String, dynamic>>.from(
-        category['provisions'] as List,
-      ).map((json) => _createProvision(json, category['name'] as String));
-      allProvisions.addAll(provisions);
-    }
-    
-    return allProvisions;
+    return _webProvisions.map(_convertProvisionModel).toList();
   }
 
-  Provision _createProvision(Map<String, dynamic> json, String categoryName) {
+  // Convert ProvisionModel to Provision
+  Provision _convertProvisionModel(ProvisionModel model) {
+    // Extract graph and table links
+    Map<String, String> relatedLinks = {};
+    if (model.graphLink.isNotEmpty) {
+      relatedLinks['Graph'] = model.graphLink;
+    }
+    if (model.tableLink.isNotEmpty) {
+      relatedLinks['Table'] = model.tableLink;
+    }
+    
+    // Split the impacts string into a list
+    List<String> impactsList = model.impacts.split(';').map((s) => s.trim()).toList();
+    
     return Provision(
-      id: json['id'] as String,
-      category: categoryName,
-      title: json['title'] as String,
-      description: json['description'] as String,
-      impacts: List<String>.from(json['impacts'] as List),
-      relatedLinks: Map<String, String>.from(json['relatedLinks'] as Map),
+      id: model.provisionId,
+      category: model.categoryName,
+      title: model.title,
+      description: model.description,
+      impacts: impactsList,
+      relatedLinks: relatedLinks,
     );
   }
 }
